@@ -6,7 +6,6 @@ import java.util.Scanner;
 
 import io.vertx.core.DeploymentOptions;
 import io.vertx.core.VertxOptions;
-import io.vertx.core.eventbus.EventBusOptions;
 import io.vertx.core.json.JsonObject;
 import io.vertx.core.logging.Logger;
 import io.vertx.core.logging.LoggerFactory;
