@@ -5,6 +5,8 @@ import java.io.FileNotFoundException;
 import java.util.Scanner;
 
 import io.vertx.core.DeploymentOptions;
+import io.vertx.core.VertxOptions;
+import io.vertx.core.eventbus.EventBusOptions;
 import io.vertx.core.json.JsonObject;
 import io.vertx.core.logging.Logger;
 import io.vertx.core.logging.LoggerFactory;
@@ -17,9 +19,15 @@ public class Launcher extends io.vertx.core.Launcher {
 
 	private static final String CONFIG_PATH = "conf/config.json";
 	static final Logger LOGGER = LoggerFactory.getLogger(Launcher.class.getName());
+	private static final String HOST = "127.0.0.1";
 
 	public static void main(String[] args) {
 		new Launcher().dispatch(args);
+	}
+
+	@Override
+	public void beforeStartingVertx(VertxOptions options) {
+		options.setClustered(true).setClusterHost(HOST);
 	}
 
 	@Override
@@ -56,7 +64,7 @@ public class Launcher extends io.vertx.core.Launcher {
 
 		Scanner scanner = new Scanner(config).useDelimiter("\\A");
 		String confStr = scanner.next();
-		//scanner.close();
+		// scanner.close();
 
 		return new JsonObject(confStr);
 	}

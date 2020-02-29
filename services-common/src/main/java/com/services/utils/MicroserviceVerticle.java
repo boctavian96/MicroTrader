@@ -15,6 +15,7 @@ import io.vertx.core.logging.LoggerFactory;
 import io.vertx.servicediscovery.Record;
 import io.vertx.servicediscovery.ServiceDiscovery;
 import io.vertx.servicediscovery.ServiceDiscoveryOptions;
+import io.vertx.servicediscovery.types.EventBusService;
 import io.vertx.servicediscovery.types.HttpEndpoint;
 
 public class MicroserviceVerticle extends AbstractVerticle {
@@ -63,6 +64,12 @@ public class MicroserviceVerticle extends AbstractVerticle {
 		publish(record, completion);
 	}
 
+	protected void publishEventBusService(String name, String address, Class<?> serviceClass,
+			Handler<AsyncResult<Void>> completionHolder) throws Exception {
+		Record record = EventBusService.createRecord(name, address, serviceClass);
+		publish(record, completionHolder);
+	}
+
 	@Override
 	public void stop(Future<Void> stopFuture) throws Exception {
 		super.stop(stopFuture);
@@ -72,7 +79,7 @@ public class MicroserviceVerticle extends AbstractVerticle {
 		if (futures.isEmpty()) {
 			stopDiscovery(stopFuture);
 		} else {
-			//stopServices(futures, stopFuture);
+			// stopServices(futures, stopFuture);
 		}
 	}
 
