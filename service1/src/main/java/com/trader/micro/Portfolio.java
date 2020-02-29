@@ -13,27 +13,27 @@ import io.vertx.core.json.JsonObject;
  *
  */
 @DataObject(generateConverter = true)
-public class Portofolio {
+public class Portfolio {
 
 	private Map<String, Integer> shares = new TreeMap();
 	private double cash;
 
-	public Portofolio() {
+	public Portfolio() {
 		// TODO: Update this.
 	}
 
-	public Portofolio(Portofolio portfolio) {
+	public Portfolio(Portfolio portfolio) {
 		this.shares = new TreeMap<>(portfolio.shares);
 		this.cash = portfolio.cash;
 	}
 
-	public Portofolio(JsonObject json) {
-		//PortofolioConverter.fromJson(json, this);
+	public Portfolio(JsonObject json) {
+		// PortofolioConverter.fromJson(json, this);
 	}
 
 	public JsonObject toJson() {
 		JsonObject jsonObject = new JsonObject();
-		//PortofolioConverter.toJson(this, json);
+		// PortofolioConverter.toJson(this, jsonObject);
 		return null;
 	}
 
@@ -49,8 +49,9 @@ public class Portofolio {
 		return cash;
 	}
 
-	public void setCash(double cash) {
+	public Portfolio setCash(double cash) {
 		this.cash = cash;
+		return this;
 	}
 
 	public int getAmount(String name) {
@@ -80,7 +81,7 @@ public class Portofolio {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Portofolio other = (Portofolio) obj;
+		Portfolio other = (Portfolio) obj;
 		if (Double.doubleToLongBits(cash) != Double.doubleToLongBits(other.cash))
 			return false;
 		if (shares == null) {
