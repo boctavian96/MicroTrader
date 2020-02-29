@@ -65,8 +65,8 @@ public class PortfolioServiceImpl implements PortfolioService {
 		});
 	}
 
-	private Promise<Double> getValueForCompany(WebClient client, String company, Double value) {
-		Promise<Double> promise = Promise.promise();
+	private Future<Double> getValueForCompany(WebClient client, String company, Double value) {
+		Future<Double> promise = Future.future();
 
 		return promise;
 	}
