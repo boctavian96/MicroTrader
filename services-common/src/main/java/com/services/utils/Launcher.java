@@ -56,6 +56,7 @@ public class Launcher extends io.vertx.core.Launcher {
 
 		Scanner scanner = new Scanner(config).useDelimiter("\\A");
 		String confStr = scanner.next();
+		//scanner.close();
 
 		return new JsonObject(confStr);
 	}
