@@ -28,7 +28,7 @@ public class PortfolioServiceImpl implements PortfolioService {
 	}
 
 	@Override
-	public void createUser(Handler<AsyncResult<JsonObject>> resultHandler) {
+	public void createUser(String userId, Handler<AsyncResult<JsonObject>> resultHandler) {
 		JsonObject response = new JsonObject() //
 				.put("id", "qwery-dvorak-salam");
 		resultHandler.handle(Future.succeededFuture(response));

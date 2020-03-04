@@ -17,5 +17,5 @@ public interface PortfolioService {
 
 	void getUser(Handler<AsyncResult<JsonObject>> resultHandler);
 
-	void createUser(Handler<AsyncResult<JsonObject>> resultHandler);
+	void createUser(String userId, Handler<AsyncResult<JsonObject>> resultHandler);
 }
