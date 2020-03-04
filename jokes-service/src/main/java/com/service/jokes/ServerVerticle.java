@@ -35,12 +35,18 @@ public class ServerVerticle extends AbstractVerticle {
 		HttpServerResponse response = request.response() //
 				.putHeader("content-type", "application/json");
 
-		//GET and POST METHODS
-		
-		switch(request.method()) {
-		case GET: userGet(response); break;
-		case POST: userCreate(request, response); break;
-		default: LOGGER.info("No request method");
+		// GET and POST METHODS
+
+		switch (request.method()) {
+		case GET:
+			userGet(response);
+			break;
+		case POST:
+			userCreate(request, response);
+			break;
+		default:
+			String json = Json.encode(joke);
+			response.end(json);
 		}
 		/*
 		 * String json = Json.encode(joke); response.end(json);
@@ -64,7 +70,7 @@ public class ServerVerticle extends AbstractVerticle {
 			response.setStatusCode(200) //
 					.end(json.toString());
 		} else {
-			//ERROR.
+			// ERROR.
 			response.setStatusCode(404).end();
 		}
 	}
