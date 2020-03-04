@@ -29,7 +29,7 @@ public class PortfolioCRUDServiceImpl implements PortfolioCRUDService {
 	@Override
 	public void updateUser(Portfolio user, Handler<AsyncResult<JsonObject>> resultHandler) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 }
