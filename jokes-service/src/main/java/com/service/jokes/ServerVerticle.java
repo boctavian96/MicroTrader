@@ -39,7 +39,7 @@ public class ServerVerticle extends AbstractVerticle {
 		
 		switch(request.method()) {
 		case GET: userGet(response); break;
-		case POST: userCreate(request, response) break;
+		case POST: userCreate(request, response); break;
 		default: LOGGER.info("No request method");
 		}
 		/*
@@ -64,6 +64,7 @@ public class ServerVerticle extends AbstractVerticle {
 			response.setStatusCode(200) //
 					.end(json.toString());
 		} else {
+			//ERROR.
 			response.setStatusCode(404).end();
 		}
 	}
