@@ -29,6 +29,7 @@
 		<module>audit-service</module>
 		<module>portfolio-service</module>
 		<module>portfolion-crud-service</module>
+		<module>crud-service</module>
 	</modules>
 
 	<dependencyManagement>
