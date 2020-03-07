@@ -5,7 +5,7 @@ import io.vertx.core.Vertx;
 public class JokeServer {
 	public static void main(String[] args) {
 		Vertx vertx = Vertx.vertx();
-		vertx.deployVerticle(new JokeService());
+		vertx.deployVerticle(new JokeServiceImpl());
 		//vertx.deployVerticle(new JokeConsumer());
 	}
 }
