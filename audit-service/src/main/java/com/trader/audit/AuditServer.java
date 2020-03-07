@@ -2,6 +2,11 @@ package com.trader.audit;
 
 import com.services.utils.MicroserviceVerticle;
 
-public class AuditServiceVerticle extends MicroserviceVerticle {
+import io.vertx.core.Vertx;
 
+public class AuditServer extends MicroserviceVerticle {
+	public static void main(String[] args) {
+		Vertx vertx = Vertx.vertx();
+		vertx.deployVerticle(new AuditServiceImpl());
+	}
 }
