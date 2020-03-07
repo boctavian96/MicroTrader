@@ -17,7 +17,7 @@ import io.vertx.serviceproxy.ServiceProxyBuilder;
 public class ServerVerticle extends AbstractVerticle {
 
 	static final Logger LOGGER = LoggerFactory.getLogger(ServerVerticle.class.getName());
-	private final Joke joke = new Joke("What kind of dog lives in a particle accelerator? A Fermilabrador Retriever.");
+	private final Joke joke = new Joke(1, "What kind of dog lives in a particle accelerator? A Fermilabrador Retriever.");
 	private PortfolioService portfolioService;
 
 	private void createServer() {
