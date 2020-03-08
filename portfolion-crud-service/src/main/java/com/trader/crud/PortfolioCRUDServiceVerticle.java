@@ -1,7 +1,7 @@
 package com.trader.crud;
 
-import com.services.utils.MicroserviceVerticle;
+import io.vertx.core.AbstractVerticle;
 
-public class PortfolioCRUDServiceVerticle extends MicroserviceVerticle {
+public class PortfolioCRUDServiceVerticle extends AbstractVerticle {
 
 }

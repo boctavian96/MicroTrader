@@ -18,7 +18,7 @@ import io.vertx.servicediscovery.ServiceDiscoveryOptions;
 import io.vertx.servicediscovery.types.EventBusService;
 import io.vertx.servicediscovery.types.HttpEndpoint;
 
-public class MicroserviceVerticle extends AbstractVerticle {
+public abstract class MicroserviceVerticle extends AbstractVerticle {
 
 	final static Logger LOGGER = LoggerFactory.getLogger(MicroserviceVerticle.class.getName());
 
@@ -82,6 +82,12 @@ public class MicroserviceVerticle extends AbstractVerticle {
 			// stopServices(futures, stopFuture);
 		}
 	}
+
+	protected void setDebuger() {
+		
+	}
+	
+	protected abstract void createRoutes();
 
 	@Override
 	public void start() throws Exception {

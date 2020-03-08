@@ -17,10 +17,12 @@ public class AuditServiceImpl extends AbstractVerticle implements AuditService {
 	private Router router = Router.router(vertx);
 
 	// Routes
-	private Route checkTransaction = router.get("/api/audit/:transaction");
+	private Route checkTransaction = router.get("/api/audit/:clientId/:amount");
 
 	private void handleRoutes() {
 		checkTransaction.handler(requestHandler -> {
+			String clientId = requestHandler.get("clientId");
+			String amount = requestHandler.get("amount");
 			requestHandler.response().end("Alles im Ordnung :)");
 		});
 	}

@@ -1,0 +1,17 @@
+<clientsDatabase>
+	<client>
+		<id>1</id>
+		<name>John Doe</name>
+		<stocks>2412.4</stocks>
+	</client>
+	<client>
+		<id>2</id>
+		<name>Hannibal Lector</name>
+		<stocks>1124.0</stocks>
+	</client>
+	<client>
+		<id>3</id>
+		<name>Arthur Mitchell</name>
+		<stocks>445.0</stocks>
+	</client>
+</clientsDatabase>
