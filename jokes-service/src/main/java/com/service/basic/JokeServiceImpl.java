@@ -2,7 +2,9 @@ package com.service.basic;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 import io.vertx.core.AbstractVerticle;
@@ -21,6 +23,7 @@ public class JokeServiceImpl extends AbstractVerticle implements JokeService {
 	private static final Logger LOGGER = LoggerFactory.getLogger(JokeServiceImpl.class.getName());
 
 	private List<String> jokes = new ArrayList<>();
+	private Map<Integer, String> dummyJks = new HashMap();
 	private String[] rawJokes = {
 
 			"What lies at the bottom of the ocean and twitches? A nervous wreck.",
@@ -37,18 +40,36 @@ public class JokeServiceImpl extends AbstractVerticle implements JokeService {
 
 	// Routes
 	private Route docRoute = router.get("/");
+	private Route allJokes = router.get("/api/all");
 	private Route messageRoute = router.get("/api/message");
 	private Route helloRoute = router.get("/api/hello");
 	private Route getJokeId = router.get("/api/message/:jokeId");
-	private Route addAJokeRoute = router.put("/api/:jokeId/:someJoke");
+	private Route addAJokeRoute = router.post("/api/:jokeId/:someJoke");
 
 	public JokeServiceImpl() {
-		jokes = Arrays.asList(rawJokes);
+		jokes = Arrays.asList(rawJokes); // ASTA II IMUTABIL, FML >:(
+
+	}
+
+	private void createErrorHandler() {
+		// Adauga asta si in celelalte servicii.
+		router.errorHandler(500, rc -> {
+			System.err.println("Handling failure");
+			Throwable failure = rc.failure();
+			if (failure != null) {
+				failure.printStackTrace();
+			}
+		});
 	}
 
 	private void createRoutes() {
+
 		docRoute.handler(requestHandler -> {
 			requestHandler.response().end("Here should be some documentation...");
+		});
+
+		allJokes.handler(requestHandler -> {
+			requestHandler.response().end(jokes.toString());
 		});
 
 		messageRoute.handler(requestHandler -> {
@@ -60,15 +81,21 @@ public class JokeServiceImpl extends AbstractVerticle implements JokeService {
 		});
 
 		addAJokeRoute.handler(requestHandler -> {
+			LOGGER.info("Began adding a new joke");
 			String jokeId = requestHandler.request().getParam("jokeId");
+			LOGGER.info("Got the joke id: " + jokeId);
 			String joke = requestHandler.request().getParam("someJoke");
+			LOGGER.info("Got the joke: " + joke);
 			HttpServerResponse response = requestHandler.response();
 
+			LOGGER.info("I am going in if");
 			if (joke == null || jokeId == null) {
 				LOGGER.error("Invalid joke :(");
 				sendError(400, response);
 			} else {
-
+				this.jokes.add(joke);
+				LOGGER.info("Added a new joke");
+				requestHandler.response().end("Joke added with success!");
 			}
 
 		});
@@ -96,15 +123,16 @@ public class JokeServiceImpl extends AbstractVerticle implements JokeService {
 		Random random = new Random();
 		int jokeIndex = random.nextInt(rawJokes.length - 1);
 
-		return rawJokes[jokeIndex];
+		return jokes.get(jokeIndex - 1);
 	}
 
 	public String getJoke(int id) {
-		return rawJokes[id - 1];
+		return jokes.get(id - 1);
 	}
 
 	@Override
 	public void start() {
+		createErrorHandler();
 		createRoutes();
 		LOGGER.info("Joke service is up at: " + PORT);
 		vertx.createHttpServer().requestHandler(router).listen(PORT);
