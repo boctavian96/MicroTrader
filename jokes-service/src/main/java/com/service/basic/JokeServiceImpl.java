@@ -1,5 +1,8 @@
 package com.service.basic;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Random;
 
 import io.vertx.core.AbstractVerticle;
@@ -17,7 +20,8 @@ public class JokeServiceImpl extends AbstractVerticle implements JokeService {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(JokeServiceImpl.class.getName());
 
-	String[] jokes = {
+	private List<String> jokes = new ArrayList<>();
+	private String[] rawJokes = {
 
 			"What lies at the bottom of the ocean and twitches? A nervous wreck.",
 			"Just read a few facts about frogs. They were ribbiting.",
@@ -29,13 +33,18 @@ public class JokeServiceImpl extends AbstractVerticle implements JokeService {
 					+ "Because when he asked them who the best composer was, they'd all say \"Bach bach bach!\" ",
 			"What do you get when you cross a snowman with a vampire? Frostbite." };
 
-	Router router = Router.router(vertx);
+	private Router router = Router.router(vertx);
 
 	// Routes
-	Route docRoute = router.get("/");
-	Route messageRoute = router.get("/api/message");
-	Route helloRoute = router.get("/api/hello");
-	Route addAJokeRoute = router.put("/api/:jokeId/:someJoke");
+	private Route docRoute = router.get("/");
+	private Route messageRoute = router.get("/api/message");
+	private Route helloRoute = router.get("/api/hello");
+	private Route getJokeId = router.get("/api/message/:jokeId");
+	private Route addAJokeRoute = router.put("/api/:jokeId/:someJoke");
+
+	public JokeServiceImpl() {
+		jokes = Arrays.asList(rawJokes);
+	}
 
 	private void createRoutes() {
 		docRoute.handler(requestHandler -> {
@@ -59,9 +68,20 @@ public class JokeServiceImpl extends AbstractVerticle implements JokeService {
 				LOGGER.error("Invalid joke :(");
 				sendError(400, response);
 			} else {
-				
+
 			}
 
+		});
+
+		getJokeId.handler(requestHandler -> {
+			int jokeId = Integer.valueOf(requestHandler.request().getParam("jokeId"));
+
+			if (jokeId < 1 || jokeId - 1 > rawJokes.length) {
+				LOGGER.error("No id for this joke...");
+				requestHandler.response().end("Joke doesnt exist");
+			} else {
+				requestHandler.response().end(Json.encode(getJoke(jokeId)));
+			}
 		});
 
 		router.get().handler(StaticHandler.create());
@@ -74,9 +94,13 @@ public class JokeServiceImpl extends AbstractVerticle implements JokeService {
 	@Override
 	public String getJoke() {
 		Random random = new Random();
-		int jokeIndex = random.nextInt(jokes.length - 1);
+		int jokeIndex = random.nextInt(rawJokes.length - 1);
 
-		return jokes[jokeIndex];
+		return rawJokes[jokeIndex];
+	}
+
+	public String getJoke(int id) {
+		return rawJokes[id - 1];
 	}
 
 	@Override
