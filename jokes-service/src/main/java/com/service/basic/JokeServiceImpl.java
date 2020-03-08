@@ -16,10 +16,9 @@ import io.vertx.ext.web.handler.StaticHandler;
 
 public class JokeServiceImpl extends AbstractVerticle implements JokeService {
 
-	public static final int PORT = 9000;
-
 	private static final Logger LOGGER = LoggerFactory.getLogger(JokeServiceImpl.class.getName());
 
+	private int port;
 	private List<String> jokes;
 	private String[] rawJokes = {
 
@@ -44,8 +43,13 @@ public class JokeServiceImpl extends AbstractVerticle implements JokeService {
 	private Route addAJokeRoute = router.post("/api/:jokeId/:someJoke");
 
 	public JokeServiceImpl() {
+		this(9000);
+	}
+	
+	public JokeServiceImpl(int port) {
+		super();
 		jokes = new ArrayList<String>(Arrays.asList(rawJokes));
-
+		this.port = port;
 	}
 
 	private void createErrorHandler() {
@@ -131,7 +135,7 @@ public class JokeServiceImpl extends AbstractVerticle implements JokeService {
 	public void start() {
 		createErrorHandler();
 		createRoutes();
-		LOGGER.info("Joke service is up at: " + PORT);
-		vertx.createHttpServer().requestHandler(router).listen(PORT);
+		LOGGER.info("Joke service is up at: " + port);
+		vertx.createHttpServer().requestHandler(router).listen(port);
 	}
 }
