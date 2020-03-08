@@ -2,9 +2,7 @@ package com.service.basic;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Random;
 
 import io.vertx.core.AbstractVerticle;
@@ -22,8 +20,7 @@ public class JokeServiceImpl extends AbstractVerticle implements JokeService {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(JokeServiceImpl.class.getName());
 
-	private List<String> jokes = new ArrayList<>();
-	private Map<Integer, String> dummyJks = new HashMap();
+	private List<String> jokes;
 	private String[] rawJokes = {
 
 			"What lies at the bottom of the ocean and twitches? A nervous wreck.",
@@ -47,7 +44,7 @@ public class JokeServiceImpl extends AbstractVerticle implements JokeService {
 	private Route addAJokeRoute = router.post("/api/:jokeId/:someJoke");
 
 	public JokeServiceImpl() {
-		jokes = Arrays.asList(rawJokes); // ASTA II IMUTABIL, FML >:(
+		jokes = new ArrayList<String>(Arrays.asList(rawJokes));
 
 	}
 
