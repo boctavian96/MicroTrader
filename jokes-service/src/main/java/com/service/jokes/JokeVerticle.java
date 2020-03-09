@@ -39,4 +39,10 @@ public class JokeVerticle extends MicroserviceVerticle {
 		deployServer(configObj);
 		publishEndpoint(configObj);
 	}
+
+	@Override
+	protected void createRoutes() {
+		// TODO Auto-generated method stub
+
+	}
 }

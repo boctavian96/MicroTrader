@@ -1,5 +1,7 @@
 package com.trader.audit;
 
+import com.services.utils.MicroserviceVerticle;
+
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Handler;
@@ -9,7 +11,7 @@ import io.vertx.core.logging.LoggerFactory;
 import io.vertx.ext.web.Route;
 import io.vertx.ext.web.Router;
 
-public class AuditServiceImpl extends AbstractVerticle implements AuditService {
+public class AuditServiceImpl extends MicroserviceVerticle implements AuditService {
 
 	private static final int PORT = 9002;
 	private static final Logger LOGGER = LoggerFactory.getLogger(AuditServiceImpl.class.getName());
@@ -36,6 +38,12 @@ public class AuditServiceImpl extends AbstractVerticle implements AuditService {
 	public void start() {
 		handleRoutes();
 		vertx.createHttpServer().requestHandler(router).listen(PORT);
+
+	}
+
+	@Override
+	protected void createRoutes() {
+		// TODO Auto-generated method stub
 
 	}
 
