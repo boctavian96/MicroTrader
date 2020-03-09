@@ -136,6 +136,9 @@ public class XmlCrud {
 			clientRoot.add(clientStocks);
 
 			root.element("clients").add(clientRoot);
+			
+			writeDatabase(document);
+			return true;
 		} catch (Exception e) {
 			LOGGER.log(Level.SEVERE, e.getMessage());
 		}
@@ -148,6 +151,7 @@ public class XmlCrud {
 			XMLWriter writer;
 			writer = new XMLWriter(new FileWriter(DATABASE_PATH), format);
 			writer.write(document);
+			writer.close();
 		} catch (IOException e) {
 			LOGGER.log(Level.SEVERE, e.getMessage());
 		}
