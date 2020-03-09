@@ -1,5 +1,7 @@
 package com.trader.crud;
 
+import com.trader.crud.xml.XmlCrud;
+
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.logging.Logger;
 import io.vertx.core.logging.LoggerFactory;
@@ -62,26 +64,30 @@ public class PortfolioCRUDServiceImpl extends AbstractVerticle implements Portfo
 
 	@Override
 	public void createUser(int id, String userName, double userMoney) {
-		// TODO Auto-generated method stub
-
+		XmlCrud db = XmlCrud.getInstance();
+		db.addNewUser(id, userName, userMoney);
 	}
 
 	@Override
 	public void deleteUser(int id) {
-		// TODO Auto-generated method stub
-
+		XmlCrud db = XmlCrud.getInstance();
+		String xPath = "/database/clients/client[" + id + "]";
+		db.deleteUser(xPath);
 	}
 
 	@Override
 	public void updateUser(int userId, String userName, double userMoney) {
-		// TODO Auto-generated method stub
-
+		XmlCrud db = XmlCrud.getInstance();
+		String xPath = "/database/clients/client[" + userId + "]";
+		db.updateUser(xPath, userName, userMoney);
 	}
 
 	@Override
 	public void getUser(int id) {
-		// TODO Auto-generated method stub
+		XmlCrud db = XmlCrud.getInstance();
+		String xPath = "/database/clients/client[" + id + "]";
 
+		db.readDatabase(xPath);
 	}
 
 	@Override

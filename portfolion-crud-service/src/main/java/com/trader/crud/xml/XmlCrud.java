@@ -78,7 +78,7 @@ public class XmlCrud {
 		return false;
 	}
 
-	public boolean updateUser(String xPath, String name, String stocks) {
+	public boolean updateUser(String xPath, String name, Double stocks) {
 		try {
 			File inputFile = new File(DATABASE_PATH);
 			SAXReader reader = new SAXReader();
@@ -100,7 +100,7 @@ public class XmlCrud {
 
 				if (stocks == null) {
 					Element stocksElement = (Element) stocksIterator.next();
-					stocksElement.setText(stocks);
+					stocksElement.setText(stocks + "");
 				}
 
 				writeDatabase(document);
