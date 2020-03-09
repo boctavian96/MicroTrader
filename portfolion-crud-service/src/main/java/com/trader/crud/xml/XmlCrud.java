@@ -1,15 +1,22 @@
 package com.trader.crud.xml;
 
 import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
+import org.dom4j.Element;
 import org.dom4j.Node;
+import org.dom4j.io.OutputFormat;
 import org.dom4j.io.SAXReader;
+import org.dom4j.io.XMLWriter;
 
 import com.services.model.Portfolio;
 
@@ -20,7 +27,7 @@ public class XmlCrud {
 	private static XmlCrud INSTANCE = null;
 
 	private XmlCrud() {
-
+		// Singleton class.
 	}
 
 	public static XmlCrud getInstance() {
@@ -37,9 +44,7 @@ public class XmlCrud {
 			SAXReader reader = new SAXReader();
 			Document document = reader.read(inputFile);
 
-			System.out.println("Root element :" + document.getRootElement().getName());
-
-			List<Node> nodes = document.selectNodes("/clientsDatabase/client");
+			List<Node> nodes = document.selectNodes(xPath);
 			List<Portfolio> portfolios = new ArrayList<>();
 
 			for (Node node : nodes) {
@@ -58,12 +63,69 @@ public class XmlCrud {
 		return null;
 	}
 
-	public void deleteUser(String xPath) {
+	public boolean deleteUser(String xPathUserId) {
+		try {
+			File inputFile = new File(DATABASE_PATH);
+			SAXReader reader = new SAXReader();
+			Document document = reader.read(inputFile);
 
+			List<Node> nodes = document.selectNodes(xPathUserId);
+			List<Portfolio> portfolios = new ArrayList<>();
+
+			for (Node node : nodes) {
+				node.detach();
+			}
+			writeDatabase(document);
+			return true;
+		} catch (DocumentException e) {
+			LOGGER.log(Level.SEVERE, e.getMessage(), e.fillInStackTrace());
+		}
+		return false;
 	}
 
-	public void updateUser(String xPath) {
+	public boolean updateUser(String xPath, String name, String stocks) {
+		try {
+			File inputFile = new File(DATABASE_PATH);
+			SAXReader reader = new SAXReader();
+			Document document = reader.read(inputFile);
 
+			List<Node> nodes = document.selectNodes(xPath);
+			List<Portfolio> portfolios = new ArrayList<>();
+
+			for (Node node : nodes) {
+
+				Element element = (Element) node;
+				Iterator<Element> nameIterator = element.elementIterator("name");
+				Iterator<Element> stocksIterator = element.elementIterator("stocks");
+
+				if (name == null) {
+					Element nameElement = (Element) nameIterator.next();
+					nameElement.setText(name);
+				}
+
+				if (stocks == null) {
+					Element stocksElement = (Element) stocksIterator.next();
+					stocksElement.setText(stocks);
+				}
+
+				writeDatabase(document);
+				return true;
+			}
+		} catch (DocumentException e) {
+			LOGGER.log(Level.SEVERE, e.getMessage(), e.fillInStackTrace());
+		}
+		return false;
+	}
+
+	private void writeDatabase(Document document) {
+		try {
+			OutputFormat format = OutputFormat.createPrettyPrint();
+			XMLWriter writer;
+			writer = new XMLWriter(new FileWriter(DATABASE_PATH), format);
+			writer.write(document);
+		} catch (IOException e) {
+			LOGGER.log(Level.SEVERE, e.getMessage());
+		}
 	}
 
 }

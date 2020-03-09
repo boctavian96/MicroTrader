@@ -12,13 +12,26 @@ public class DatabaseTest {
 	public void testRead() {
 		XmlCrud db = XmlCrud.getInstance();
 
-		List<Portfolio> portfolios = db.readDatabase("Lol");
+		List<Portfolio> portfolios = db.readDatabase("/clientsDatabase/client");
 		
 		for(Portfolio p : portfolios) {
 			System.out.println(p);
 		}
 
 		Assert.assertNotNull(portfolios);
+	}
+	
+	@Test
+	public void testUpdate() {
+		
+	}
+	
+	public void testCreate() {
+		
+	}
+	
+	public void testDelete() {
+		
 	}
 
 }
