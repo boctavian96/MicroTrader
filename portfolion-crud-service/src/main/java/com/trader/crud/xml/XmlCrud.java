@@ -12,6 +12,7 @@ import java.util.logging.Logger;
 
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
+import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
 import org.dom4j.Node;
 import org.dom4j.io.OutputFormat;
@@ -107,6 +108,36 @@ public class XmlCrud {
 			}
 		} catch (DocumentException e) {
 			LOGGER.log(Level.SEVERE, e.getMessage(), e.fillInStackTrace());
+		}
+		return false;
+	}
+
+	public boolean addNewUser(int id, String username, double stocks) {
+		try {
+			File inputFile = new File(DATABASE_PATH);
+			SAXReader reader = new SAXReader();
+			Document document = reader.read(inputFile);
+
+			Element root = document.getRootElement();
+
+			Element clientRoot = DocumentHelper.createElement("client");
+
+			Element clientId = DocumentHelper.createElement("id");
+			clientId.setText("4233");
+
+			Element clientName = DocumentHelper.createElement("name");
+			clientName.setText(username);
+
+			Element clientStocks = DocumentHelper.createElement("stocks");
+			clientStocks.setText(stocks + "");
+
+			clientRoot.add(clientId);
+			clientRoot.add(clientName);
+			clientRoot.add(clientStocks);
+
+			root.element("clients").add(clientRoot);
+		} catch (Exception e) {
+			LOGGER.log(Level.SEVERE, e.getMessage());
 		}
 		return false;
 	}
