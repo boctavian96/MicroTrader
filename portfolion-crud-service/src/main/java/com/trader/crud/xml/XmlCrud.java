@@ -68,13 +68,7 @@ public class XmlCrud {
 			File inputFile = new File(DATABASE_PATH);
 			SAXReader reader = new SAXReader();
 			Document document = reader.read(inputFile);
-
-			List<Node> nodes = document.selectNodes(xPathUserId);
-			List<Portfolio> portfolios = new ArrayList<>();
-
-			for (Node node : nodes) {
-				node.detach();
-			}
+			document.selectSingleNode(xPathUserId).detach();
 			writeDatabase(document);
 			return true;
 		} catch (DocumentException e) {
